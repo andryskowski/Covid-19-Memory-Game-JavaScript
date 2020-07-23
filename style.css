@@ -1,0 +1,48 @@
+*, 
+*::after, 
+*::before 
+{ 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: inherit; 
+} 
+
+body{
+    background-color: pink;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    zoom: 25%;
+
+}
+
+.card_back{
+    width: 500px;
+    height: 500px;
+
+
+}
+
+.cards{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr  ;
+
+
+}
+
+.card_front{
+
+    display: none;
+
+}
+
+.hidden{
+    background-color: green;
+    background: url(img/card.svg);
+}
+
+.visible{
+    background: url(img/gloves.svg);
+}
+
