@@ -46,3 +46,8 @@ body{
     background: url(img/gloves.svg);
 }
 
+.points{
+    font-size: 150px; 
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+}

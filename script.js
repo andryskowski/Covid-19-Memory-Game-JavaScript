@@ -1,94 +1,67 @@
-const pierwsza = document.querySelectorAll('.pierwsza');
-const coronavirus = document.querySelector('.coronavirus');
+const POINTS = document.querySelector('.points');
 
 let counter_of_click = 1;
-let cards = document.querySelectorAll('.pierwsza');
-cards = [...cards];
-console.log(cards);
-let waiting_cards = [];
+let cards = document.querySelectorAll('.card_back');
+const CARDS = [...cards];
+const WAITING_CARDS = [];
+//counters
 let counter_if_found = 0;
-
-cards.forEach(card => card.style.opacity = 1);
-
+let counter_timer = 0;
+let winner_time = 1000;
 let backgrounds_cards = [];
 
 window.onload = function () {
-    shuffleArray(cards);
-    cards[0].style.backgroundImage = 'url(img/gloves.svg)';
-    cards[1].style.backgroundImage = 'url(img/injection.svg)';
-    cards[2].style.backgroundImage = 'url(img/tissue-paper.svg)';
-    cards[3].style.backgroundImage = 'url(img/goggles.svg)';
-    cards[4].style.backgroundImage = 'url(img/hand-sanitizer.svg)';
-    cards[5].style.backgroundImage = 'url(img/hand-sanitizer-2.svg)';
-    cards[6].style.backgroundImage = 'url(img/face-mask.svg)';
-    cards[7].style.backgroundImage = 'url(img/coronavirus.svg)';
-    cards[8].style.backgroundImage = 'url(img/hand-sanitizer-2.svg)';
-    cards[9].style.backgroundImage = 'url(img/gloves.svg)';
-    cards[10].style.backgroundImage = 'url(img/injection.svg)';
-    cards[11].style.backgroundImage = 'url(img/tissue-paper.svg)';
-    cards[12].style.backgroundImage = 'url(img/goggles.svg)';
-    cards[13].style.backgroundImage = 'url(img/hand-sanitizer.svg)';
-    cards[14].style.backgroundImage = 'url(img/coronavirus.svg)';
-    cards[15].style.backgroundImage = 'url(img/face-mask.svg)';
+    set_interval_for_game();
+    shuffleArray(CARDS);
+    CARDS[0].style.backgroundImage = 'url(img/gloves.svg)';
+    CARDS[1].style.backgroundImage = 'url(img/injection.svg)';
+    CARDS[2].style.backgroundImage = 'url(img/tissue-paper.svg)';
+    CARDS[3].style.backgroundImage = 'url(img/goggles.svg)';
+    CARDS[4].style.backgroundImage = 'url(img/hand-sanitizer.svg)';
+    CARDS[5].style.backgroundImage = 'url(img/hand-sanitizer-2.svg)';
+    CARDS[6].style.backgroundImage = 'url(img/face-mask.svg)';
+    CARDS[7].style.backgroundImage = 'url(img/coronavirus.svg)';
+    CARDS[8].style.backgroundImage = 'url(img/hand-sanitizer-2.svg)';
+    CARDS[9].style.backgroundImage = 'url(img/gloves.svg)';
+    CARDS[10].style.backgroundImage = 'url(img/injection.svg)';
+    CARDS[11].style.backgroundImage = 'url(img/tissue-paper.svg)';
+    CARDS[12].style.backgroundImage = 'url(img/goggles.svg)';
+    CARDS[13].style.backgroundImage = 'url(img/hand-sanitizer.svg)';
+    CARDS[14].style.backgroundImage = 'url(img/coronavirus.svg)';
+    CARDS[15].style.backgroundImage = 'url(img/face-mask.svg)';
     make_array_for_backgrounds(backgrounds_cards);
-    setTimeout(function () { cards.forEach(card => card.style.backgroundImage = 'url(img/card.svg)') }, 2000);
+    setTimeout(function () { CARDS.forEach(CARD => CARD.style.backgroundImage = 'url(img/card.svg)') }, 2000);
 };
 
-cards.forEach(card => card.addEventListener('click', function (index) {
-    // const number = BTN[i].getAttribute('data-letter');
-    // BTN[i].style.display = 'none';
-    // check(number);
-
-    // pierwsza.classList.add('hidden');
-    // coronavirus.classList.add('visible');
-    console.log(counter_of_click);
-
-    // if (counter_of_click % 2 == 1) {
-
-    //     show_front_card(card);
-    //     counter_of_click += 1;
-    // }
-    // else if (counter_of_click % 2 == 0) {
-
-    //        show_front_card(card);
-    //     counter_of_click += 1;
-    // }
-
-    if (waiting_cards.length < 2) {
-        show_front_card(card)
+CARDS.forEach(CARD => CARD.addEventListener('click', function (index) {
+    if (WAITING_CARDS.length < 2) {
+        show_card(CARD)
     }
-    if (waiting_cards.length == 2 && (waiting_cards[0].getAttribute('data-if_active') == waiting_cards[1].getAttribute('data-if_active')) && (waiting_cards[0].style.backgroundImage == waiting_cards[1].style.backgroundImage)) {
-        alert("GIT");
-        waiting_cards[0].style.opacity = 0;
-        waiting_cards[1].style.opacity = 0;
-        waiting_cards[0].classList.add()
+    if (WAITING_CARDS.length == 2 && (WAITING_CARDS[0].getAttribute('data-if_active') == 'active' && WAITING_CARDS[1].getAttribute('data-if_active') == 'active') && (WAITING_CARDS[0].style.backgroundImage == WAITING_CARDS[1].style.backgroundImage) && (WAITING_CARDS[0].getAttribute('data-index') != WAITING_CARDS[1].getAttribute('data-index'))) {
+        WAITING_CARDS[0].style.opacity = 0;
+        WAITING_CARDS[1].style.opacity = 0;
+        counter_if_found += 2;
+        console.log(counter_if_found);
+        WAITING_CARDS.length = 0;
+        if (counter_if_found == 16) {
+            you_win();
+        }
     }
 }))
 
-function show_front_card(card) {
-    card.style.backgroundImage = backgrounds_cards[cards.indexOf(card)];
-    // setTimeout(function(){ alert("Hello"); }, 3000);
-    card.classList.add('active');
-    card.setAttribute('data-if_active', 'active');
-    console.log(card.getAttribute('data-if_active'));
-    waiting_cards.push(card);
-    console.log(waiting_cards);
+function show_card(CARD) {
+    CARD.style.backgroundImage = backgrounds_cards[CARDS.indexOf(CARD)];
+    CARD.classList.add('active');
+    CARD.setAttribute('data-if_active', 'active');
+    WAITING_CARDS.push(CARD);
 
-    //ODWRACANIE KARTY PONOWNIE 
-    setTimeout(function () {
-        card.style.backgroundImage = 'url(img/card.svg)';
-        card.setAttribute('data-if_active', 'inactive');
-        console.log(card.getAttribute('data-if_active'));
-        waiting_cards.pop(card);
-        console.log(waiting_cards);
-    }, 1000);
-
+    //hide_card
+    setTimeout(() => {
+        CARD.style.backgroundImage = 'url(img/card.svg)';
+        CARD.setAttribute('data-if_active', 'inactive');
+        WAITING_CARDS.pop(CARD);
+    }, 2000);
 }
-
-// function show_back_card(card) {
-//     card.style.backgroundImage = 'url(img/card.svg)';
-//     console.log("mmm weszlo");
-// }
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -100,9 +73,35 @@ function shuffleArray(array) {
 
 function make_array_for_backgrounds(backgrounds_cards) {
 
-    for (let i = 0; i < cards.length; i++) {
-        backgrounds_cards[i] = cards[i].style.backgroundImage;
+    for (let i = 0; i < CARDS.length; i++) {
+        backgrounds_cards[i] = CARDS[i].style.backgroundImage;
     }
-    console.log(backgrounds_cards);
+
     return backgrounds_cards;
 }
+
+function set_interval_for_game() {
+
+    setInterval(showTime, 1000);
+
+}
+
+function showTime() {
+    if (counter_timer < winner_time) {
+        POINTS.innerHTML = '<h2 class="points">Your score is ' + counter_timer + ' seconds!</h2>';
+        counter_timer += 1;
+    }
+    else {
+        POINTS.innerHTML = 'Reload page if you want play again. ;)';
+    }
+}
+
+function you_win() {
+    alert("Congratulation! :D You win! Your time is " + counter_timer + " seconds");
+    winner_time = counter_timer;
+    console.log(winner_time);
+    POINTS.innerHTML = 'Reload page if you want play again. ;)';
+}
+
+
+console.log(winner_time);
