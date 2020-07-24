@@ -5,14 +5,15 @@ let counter_of_click = 1;
 let cards = document.querySelectorAll('.pierwsza');
 cards = [...cards];
 console.log(cards);
-
-shuffleArray(cards);
+let waiting_cards = [];
+let counter_if_found = 0;
 
 cards.forEach(card => card.style.opacity = 1);
 
 let backgrounds_cards = [];
 
 window.onload = function () {
+    shuffleArray(cards);
     cards[0].style.backgroundImage = 'url(img/gloves.svg)';
     cards[1].style.backgroundImage = 'url(img/injection.svg)';
     cards[2].style.backgroundImage = 'url(img/tissue-paper.svg)';
@@ -27,11 +28,10 @@ window.onload = function () {
     cards[11].style.backgroundImage = 'url(img/tissue-paper.svg)';
     cards[12].style.backgroundImage = 'url(img/goggles.svg)';
     cards[13].style.backgroundImage = 'url(img/hand-sanitizer.svg)';
-    cards[14].style.backgroundImage = 'url(img/hand-sanitizer-2.svg)';
+    cards[14].style.backgroundImage = 'url(img/coronavirus.svg)';
     cards[15].style.backgroundImage = 'url(img/face-mask.svg)';
-    shuffleArray(cards);
     make_array_for_backgrounds(backgrounds_cards);
-    setTimeout(function () { cards.forEach(card => card.style.backgroundImage = 'url(img/card.svg)') }, 100);
+    setTimeout(function () { cards.forEach(card => card.style.backgroundImage = 'url(img/card.svg)') }, 2000);
 };
 
 cards.forEach(card => card.addEventListener('click', function (index) {
@@ -44,16 +44,25 @@ cards.forEach(card => card.addEventListener('click', function (index) {
     console.log(counter_of_click);
 
     // if (counter_of_click % 2 == 1) {
-    //     console.log("pierwsza petla");
+
     //     show_front_card(card);
     //     counter_of_click += 1;
     // }
     // else if (counter_of_click % 2 == 0) {
-    //     console.log();
-    //     show_back_card(card);
+
+    //        show_front_card(card);
     //     counter_of_click += 1;
     // }
-    show_front_card(card);
+
+    if (waiting_cards.length < 2) {
+        show_front_card(card)
+    }
+    if (waiting_cards.length == 2 && (waiting_cards[0].getAttribute('data-if_active') == waiting_cards[1].getAttribute('data-if_active')) && (waiting_cards[0].style.backgroundImage == waiting_cards[1].style.backgroundImage)) {
+        alert("GIT");
+        waiting_cards[0].style.opacity = 0;
+        waiting_cards[1].style.opacity = 0;
+        waiting_cards[0].classList.add()
+    }
 }))
 
 function show_front_card(card) {
@@ -62,14 +71,19 @@ function show_front_card(card) {
     card.classList.add('active');
     card.setAttribute('data-if_active', 'active');
     console.log(card.getAttribute('data-if_active'));
+    waiting_cards.push(card);
+    console.log(waiting_cards);
 
-    //ODWRACANIE KARTY
-    setTimeout(function(){ card.style.backgroundImage = 'url(img/card.svg)';
-    card.setAttribute('data-if_active', 'inactive');
-    console.log(card.getAttribute('data-if_active'));}, 1000);
+    //ODWRACANIE KARTY PONOWNIE 
+    setTimeout(function () {
+        card.style.backgroundImage = 'url(img/card.svg)';
+        card.setAttribute('data-if_active', 'inactive');
+        console.log(card.getAttribute('data-if_active'));
+        waiting_cards.pop(card);
+        console.log(waiting_cards);
+    }, 1000);
+
 }
-
-
 
 // function show_back_card(card) {
 //     card.style.backgroundImage = 'url(img/card.svg)';
