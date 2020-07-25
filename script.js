@@ -37,14 +37,20 @@ window.onload = function () {
 
 //function 'click' for each card
 CARDS.forEach(CARD => CARD.addEventListener('click', function (index) {
+    
     if (WAITING_CARDS.length < 2) {
         move_card(CARD)
     }
-    if (WAITING_CARDS.length == 2 && (WAITING_CARDS[0].getAttribute('data-if_active') == 'active' && WAITING_CARDS[1].getAttribute('data-if_active') == 'active') && (WAITING_CARDS[0].style.backgroundImage == WAITING_CARDS[1].style.backgroundImage) && (WAITING_CARDS[0].getAttribute('data-index') != WAITING_CARDS[1].getAttribute('data-index'))) {
+//when there are the same cards
+    if ((WAITING_CARDS.length == 2) && (WAITING_CARDS[0].getAttribute('data-if_active') == 'active' && WAITING_CARDS[1].getAttribute('data-if_active') == 'active') 
+    && (WAITING_CARDS[0].style.backgroundImage == WAITING_CARDS[1].style.backgroundImage) 
+    && (WAITING_CARDS[0].getAttribute('data-index') != WAITING_CARDS[1].getAttribute('data-index'))) {
+
         WAITING_CARDS[0].style.opacity = 0;
         WAITING_CARDS[1].style.opacity = 0;
+        WAITING_CARDS.length=0;
         counter_if_found += 2;
-        WAITING_CARDS.length = 0;
+        console.log(counter_if_found);
         if (counter_if_found == 16) {
             you_win();
         }
@@ -57,7 +63,7 @@ function move_card(CARD) {
     CARD.classList.add('active');
     CARD.setAttribute('data-if_active', 'active');
     WAITING_CARDS.push(CARD);
-
+    console.log(WAITING_CARDS);
     //hide_card
     setTimeout(() => {
         CARD.style.backgroundImage = 'url(img/card.svg)';
